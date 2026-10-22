@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
@@ -36,4 +37,13 @@ interface PodcastDao {
 
     @Query("SELECT MAX(customOrder) FROM podcasts")
     suspend fun maxCustomOrder(): Int?
+
+    @Query("UPDATE podcasts SET customOrder = :order WHERE id = :id")
+    suspend fun setCustomOrder(id: Long, order: Int)
+
+    /** customOrder = index for each id, in one transaction. */
+    @Transaction
+    suspend fun reorder(orderedIds: List<Long>) {
+        orderedIds.forEachIndexed { index, id -> setCustomOrder(id, index) }
+    }
 }

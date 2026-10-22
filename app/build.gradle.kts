@@ -7,6 +7,15 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
+// Podcast Index API credentials (free, https://api.podcastindex.org). Never commit them:
+// put podcastIndex.key / podcastIndex.secret in local.properties, or set PODCAST_INDEX_KEY / PODCAST_INDEX_SECRET.
+// Without them the app searches fyyd.de only.
+val localProperties = java.util.Properties().apply {
+    rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
+}
+fun secret(property: String, env: String): String =
+    (localProperties.getProperty(property) ?: System.getenv(env) ?: "").trim()
+
 android {
     namespace = "com.punyplatipus.podouvir"
     compileSdk = 35
@@ -20,6 +29,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         // Ship only the languages we translate; keep in sync with res/xml/locales_config.xml.
         resourceConfigurations += listOf("en", "pt")
+
+        buildConfigField("String", "PODCAST_INDEX_KEY", "\"${secret("podcastIndex.key", "PODCAST_INDEX_KEY")}\"")
+        buildConfigField("String", "PODCAST_INDEX_SECRET", "\"${secret("podcastIndex.secret", "PODCAST_INDEX_SECRET")}\"")
     }
 
     buildTypes {
@@ -38,6 +50,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     testOptions {
         // Robolectric needs merged resources/manifest for Room and XmlPullParser tests.
@@ -80,6 +93,10 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlinx.serialization)
 
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
@@ -91,6 +108,8 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.okhttp.mockwebserver)
+    testImplementation(platform(libs.androidx.compose.bom))
+    testImplementation(libs.androidx.compose.ui.test.junit4)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

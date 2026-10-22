@@ -1,0 +1,25 @@
+<resources>
+    <string name="library_title">Library</string>
+    <string name="library_empty">No podcasts yet. Discover some to get started.</string>
+    <string name="library_discover">Discover podcasts</string>
+    <string name="library_view_switch_to_list">Switch to list view</string>
+    <string name="library_view_switch_to_grid">Switch to grid view</string>
+    <string name="library_sort">Sort</string>
+    <string name="library_sort_title">Title</string>
+    <string name="library_sort_recently_updated">Recently updated</string>
+    <string name="library_sort_date_added">Date added</string>
+    <string name="library_sort_custom">Custom</string>
+    <string name="library_reorder">Reorder</string>
+    <string name="library_done">Done</string>
+    <string name="library_all">All</string>
+    <string name="library_group_header">%1$s (%2$d)</string>
+    <string name="library_group_expand">Expand group</string>
+    <string name="library_group_collapse">Collapse group</string>
+    <string name="library_move_up">Move up</string>
+    <string name="library_move_down">Move down</string>
+    <string name="library_change_genre">Change genre</string>
+    <string name="library_unsubscribe">Unsubscribe</string>
+    <string name="library_unsubscribe_title">Unsubscribe?</string>
+    <string name="library_unsubscribe_message">Remove \"%1$s\" from your library?</string>
+    <string name="library_cancel">Cancel</string>
+</resources>

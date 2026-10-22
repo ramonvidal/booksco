@@ -1,5 +1,3 @@
 <resources>
     <string name="app_name" translatable="false">PodOuvir</string>
-    <string name="library_title">Library</string>
-    <string name="library_empty">No podcasts yet. Discover some to get started.</string>
 </resources>

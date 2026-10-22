@@ -22,4 +22,7 @@ interface PodcastRepository {
 
     /** Pass null or blank to clear the override. */
     suspend fun setGenreOverride(podcastId: Long, genre: String?)
+
+    /** Sets customOrder = index in [orderedIds] for each id, atomically. Unknown ids are ignored. */
+    suspend fun setCustomOrder(orderedIds: List<Long>)
 }

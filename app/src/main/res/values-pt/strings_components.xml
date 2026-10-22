@@ -1,0 +1,8 @@
+<resources>
+    <string name="components_genre_unknown">Outros</string>
+    <string name="components_change_genre_title">Alterar gênero</string>
+    <string name="components_change_genre_field">Gênero</string>
+    <string name="components_change_genre_use_feed">Usar gênero do feed (%1$s)</string>
+    <string name="components_save">Salvar</string>
+    <string name="components_cancel">Cancelar</string>
+</resources>

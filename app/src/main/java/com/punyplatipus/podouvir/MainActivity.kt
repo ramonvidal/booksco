@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.punyplatipus.podouvir.ui.library.LibraryScreen
+import com.punyplatipus.podouvir.ui.navigation.MainScaffold
 import com.punyplatipus.podouvir.ui.theme.PodOuvirTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PodOuvirTheme {
-                LibraryScreen()
+                MainScaffold()
             }
         }
     }

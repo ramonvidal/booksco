@@ -118,4 +118,54 @@ class PodcastDaoTest {
             cancelAndIgnoreRemainingEvents()
         }
     }
+
+    // ---- reorder / setCustomOrder ----
+
+    private suspend fun insertThree(orders: Triple<Int, Int, Int> = Triple(10, 20, 30)): Triple<Long, Long, Long> {
+        val a = dao.insert(podcastEntity(feedUrl = "a", customOrder = orders.first))
+        val b = dao.insert(podcastEntity(feedUrl = "b", customOrder = orders.second))
+        val c = dao.insert(podcastEntity(feedUrl = "c", customOrder = orders.third))
+        return Triple(a, b, c)
+    }
+
+    private suspend fun order(id: Long) = dao.getById(id)!!.customOrder
+
+    @Test fun `reorder assigns each id its list index`() = runTest {
+        val (a, b, c) = insertThree()
+        dao.reorder(listOf(c, a, b))
+        assertEquals(0, order(c))
+        assertEquals(1, order(a))
+        assertEquals(2, order(b))
+    }
+
+    @Test fun `reorder leaves ids not in the list unchanged`() = runTest {
+        val (a, b, c) = insertThree()
+        dao.reorder(listOf(b, a))
+        assertEquals(0, order(b))
+        assertEquals(1, order(a))
+        assertEquals(30, order(c))
+    }
+
+    @Test fun `reorder ignores unknown ids and does not throw`() = runTest {
+        val a = dao.insert(podcastEntity(feedUrl = "a", customOrder = 10))
+        val b = dao.insert(podcastEntity(feedUrl = "b", customOrder = 20))
+        dao.reorder(listOf(a, 999L, b))
+        assertEquals(0, order(a))
+        assertEquals(2, order(b))
+        assertNull(dao.getById(999L))
+        assertEquals(2, dao.getAll().size)
+    }
+
+    @Test fun `reorder with empty list is a no-op`() = runTest {
+        val (a, b, c) = insertThree()
+        dao.reorder(emptyList())
+        assertEquals(listOf(10, 20, 30), listOf(order(a), order(b), order(c)))
+    }
+
+    @Test fun `setCustomOrder updates only the target row`() = runTest {
+        val (a, b, _) = insertThree()
+        dao.setCustomOrder(a, 7)
+        assertEquals(7, order(a))
+        assertEquals(20, order(b))
+    }
 }

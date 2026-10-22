@@ -1,0 +1,6 @@
+{"status":1,"msg":"ok","data":[
+{"title":"Full Show","xmlURL":"https://fyyd.example/full.xml","imgURL":"https://fyyd.example/full.jpg","author":"Alice","categories":[203,100]},
+{"title":"Bare Show","xmlURL":"https://fyyd.example/bare.xml"},
+{"title":"No Feed","xmlURL":"  "},
+{"title":"Duplicate","xmlURL":"https://fyyd.example/full.xml","author":"Bob"}
+]}

@@ -1,0 +1,18 @@
+<resources>
+    <string name="discover_title">Descobrir</string>
+    <string name="discover_search_hint">Buscar podcasts</string>
+    <string name="discover_initial_hint">Busque um podcast pelo nome ou assunto, ou adicione um feed por URL.</string>
+    <string name="discover_no_results">Nenhum podcast encontrado</string>
+    <string name="discover_subscribe">Assinar</string>
+    <string name="discover_subscribed">Assinado</string>
+    <string name="discover_clear">Limpar busca</string>
+    <string name="discover_add_by_url">Adicionar por URL</string>
+    <string name="discover_add_by_url_field">URL do feed</string>
+    <string name="discover_add_by_url_confirm">Adicionar</string>
+    <string name="discover_add_by_url_cancel">Cancelar</string>
+    <string name="discover_author_genre">%1$s · %2$s</string>
+    <string name="discover_message_search_failed">A busca falhou. Verifique sua conexão e tente novamente.</string>
+    <string name="discover_message_subscribe_failed">Não foi possível assinar este podcast.</string>
+    <string name="discover_message_subscribed">Assinado</string>
+    <string name="discover_message_invalid_url">Informe uma URL de feed válida começando com http:// ou https://.</string>
+</resources>

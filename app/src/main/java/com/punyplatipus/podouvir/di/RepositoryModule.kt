@@ -4,6 +4,8 @@ import com.punyplatipus.podouvir.data.network.FeedFetcher
 import com.punyplatipus.podouvir.data.network.OkHttpFeedFetcher
 import com.punyplatipus.podouvir.data.repository.DefaultPodcastRepository
 import com.punyplatipus.podouvir.data.repository.PodcastRepository
+import com.punyplatipus.podouvir.data.search.CompositeSearchService
+import com.punyplatipus.podouvir.data.search.PodcastSearchService
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -20,4 +22,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindFeedFetcher(impl: OkHttpFeedFetcher): FeedFetcher
+
+    @Binds
+    @Singleton
+    abstract fun bindSearchService(impl: CompositeSearchService): PodcastSearchService
 }

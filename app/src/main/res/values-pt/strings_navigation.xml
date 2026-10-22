@@ -1,0 +1,9 @@
+<resources>
+    <string name="navigation_library">Biblioteca</string>
+    <string name="navigation_discover">Descobrir</string>
+    <string name="navigation_queue">Fila</string>
+    <string name="navigation_back">Voltar</string>
+    <string name="navigation_queue_placeholder">A seguir — em breve</string>
+    <string name="navigation_detail_title">Podcast</string>
+    <string name="navigation_detail_placeholder">Detalhes em breve</string>
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="navigation_library">Library</string>
+    <string name="navigation_discover">Discover</string>
+    <string name="navigation_queue">Queue</string>
+    <string name="navigation_back">Back</string>
+    <string name="navigation_queue_placeholder">Up Next — coming soon</string>
+    <string name="navigation_detail_title">Podcast</string>
+    <string name="navigation_detail_placeholder">Details coming soon</string>
+</resources>

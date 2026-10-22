@@ -6,9 +6,9 @@ import com.punyplatipus.podouvir.data.db.PodcastDao
 import com.punyplatipus.podouvir.data.db.PodcastEntity
 import com.punyplatipus.podouvir.data.db.toDomain
 import com.punyplatipus.podouvir.data.network.FeedFetcher
-import com.punyplatipus.podouvir.data.network.ItunesSearchClient
 import com.punyplatipus.podouvir.data.rss.ParsedEpisode
 import com.punyplatipus.podouvir.data.rss.RssParser
+import com.punyplatipus.podouvir.data.search.PodcastSearchService
 import com.punyplatipus.podouvir.di.IoDispatcher
 import com.punyplatipus.podouvir.domain.model.Episode
 import com.punyplatipus.podouvir.domain.model.Podcast
@@ -24,7 +24,7 @@ import javax.inject.Inject
 class DefaultPodcastRepository @Inject constructor(
     private val podcastDao: PodcastDao,
     private val episodeDao: EpisodeDao,
-    private val searchClient: ItunesSearchClient,
+    private val searchService: PodcastSearchService,
     private val feedFetcher: FeedFetcher,
     private val rssParser: RssParser,
     private val clock: Clock,
@@ -38,7 +38,7 @@ class DefaultPodcastRepository @Inject constructor(
         episodeDao.observeForPodcast(podcastId).map { list -> list.map { it.toDomain() } }
 
     override suspend fun search(term: String): Result<List<PodcastSearchResult>> =
-        runCatchingCancellable { searchClient.search(term) }
+        runCatchingCancellable { searchService.search(term) }
 
     override suspend fun subscribe(feedUrl: String, fallbackGenre: String?): Result<Long> {
         val url = feedUrl.trim()
@@ -100,6 +100,10 @@ class DefaultPodcastRepository @Inject constructor(
 
     override suspend fun setGenreOverride(podcastId: Long, genre: String?) = withContext(ioDispatcher) {
         podcastDao.setGenreOverride(podcastId, genre?.takeIf { it.isNotBlank() })
+    }
+
+    override suspend fun setCustomOrder(orderedIds: List<Long>) = withContext(ioDispatcher) {
+        podcastDao.reorder(orderedIds)
     }
 
     private fun ParsedEpisode.toEntity(podcastId: Long) = EpisodeEntity(

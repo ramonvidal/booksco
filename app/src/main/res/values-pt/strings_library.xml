@@ -1,0 +1,25 @@
+<resources>
+    <string name="library_title">Biblioteca</string>
+    <string name="library_empty">Nenhum podcast ainda. Descubra alguns para começar.</string>
+    <string name="library_discover">Descobrir podcasts</string>
+    <string name="library_view_switch_to_list">Mudar para visualização em lista</string>
+    <string name="library_view_switch_to_grid">Mudar para visualização em grade</string>
+    <string name="library_sort">Ordenar</string>
+    <string name="library_sort_title">Título</string>
+    <string name="library_sort_recently_updated">Atualizados recentemente</string>
+    <string name="library_sort_date_added">Data de adição</string>
+    <string name="library_sort_custom">Personalizada</string>
+    <string name="library_reorder">Reordenar</string>
+    <string name="library_done">Concluir</string>
+    <string name="library_all">Todos</string>
+    <string name="library_group_header">%1$s (%2$d)</string>
+    <string name="library_group_expand">Expandir grupo</string>
+    <string name="library_group_collapse">Recolher grupo</string>
+    <string name="library_move_up">Mover para cima</string>
+    <string name="library_move_down">Mover para baixo</string>
+    <string name="library_change_genre">Alterar gênero</string>
+    <string name="library_unsubscribe">Cancelar inscrição</string>
+    <string name="library_unsubscribe_title">Cancelar inscrição?</string>
+    <string name="library_unsubscribe_message">Remover \"%1$s\" da sua biblioteca?</string>
+    <string name="library_cancel">Cancelar</string>
+</resources>

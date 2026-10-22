@@ -1,0 +1,9 @@
+{"status":"true","count":7,"feeds":[
+{"title":"Tech Show","url":"https://pi.example/tech.xml","author":"Carol","image":"https://pi.example/i.jpg","artwork":"https://pi.example/a.jpg","categories":{"104":"X","102":"Technology"}},
+{"title":"No Cats","url":"https://pi.example/nocats.xml","image":"https://pi.example/n.jpg","categories":null},
+{"title":"Blank Art","url":"https://pi.example/blank.xml","artwork":"","image":"https://pi.example/b.jpg","categories":{"abc":"Ignored","7":"Seven"}},
+{"title":"No Art","url":"https://pi.example/noart.xml","artwork":" ","image":"","categories":{}},
+{"title":"No Url"},
+{"url":"https://pi.example/notitle.xml"},
+{"title":"Dup","url":"https://pi.example/tech.xml"}
+]}

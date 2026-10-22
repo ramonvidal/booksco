@@ -7,15 +7,16 @@ import com.punyplatipus.podouvir.data.db.createDb
 import com.punyplatipus.podouvir.data.db.podcastEntity
 import com.punyplatipus.podouvir.data.db.toDomain
 import com.punyplatipus.podouvir.data.network.FeedFetcher
-import com.punyplatipus.podouvir.data.network.ItunesApi
-import com.punyplatipus.podouvir.data.network.ItunesPodcastDto
-import com.punyplatipus.podouvir.data.network.ItunesSearchClient
-import com.punyplatipus.podouvir.data.network.ItunesSearchResponse
 import com.punyplatipus.podouvir.data.rss.FeedParseException
+import com.punyplatipus.podouvir.domain.model.PodcastSearchResult
+import com.punyplatipus.podouvir.testutil.FakeSearchService
 import com.punyplatipus.podouvir.data.rss.RssParser
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import com.punyplatipus.podouvir.domain.model.SortOrder
+import com.punyplatipus.podouvir.domain.model.sortPodcasts
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -55,15 +56,6 @@ class FakeFeedFetcher : FeedFetcher {
     }
 }
 
-class FakeItunesApi : ItunesApi {
-    var results: List<ItunesPodcastDto> = emptyList()
-    var error: Throwable? = null
-    override suspend fun search(term: String, media: String, entity: String, limit: Int): ItunesSearchResponse {
-        error?.let { throw it }
-        return ItunesSearchResponse(results.size, results)
-    }
-}
-
 class MutableClock(var now: Long) : Clock() {
     override fun getZone(): ZoneId = ZoneOffset.UTC
     override fun withZone(zone: ZoneId?): Clock = this
@@ -79,19 +71,19 @@ class DefaultPodcastRepositoryTest {
 
     private lateinit var db: PodOuvirDatabase
     private lateinit var fetcher: FakeFeedFetcher
-    private lateinit var itunes: FakeItunesApi
+    private lateinit var search: FakeSearchService
     private lateinit var clock: MutableClock
     private val dispatcher = StandardTestDispatcher()
     private lateinit var repo: DefaultPodcastRepository
 
     private fun newRepo(io: kotlinx.coroutines.CoroutineDispatcher = dispatcher) = DefaultPodcastRepository(
-        db.podcastDao(), db.episodeDao(), ItunesSearchClient(itunes, io), fetcher, RssParser(), clock, io,
+        db.podcastDao(), db.episodeDao(), search, fetcher, RssParser(), clock, io,
     )
 
     @Before fun setUp() {
         db = createDb()
         fetcher = FakeFeedFetcher()
-        itunes = FakeItunesApi()
+        search = FakeSearchService()
         clock = MutableClock(10_000L)
         repo = newRepo()
         fetcher.responses[url] = simple
@@ -338,24 +330,25 @@ class DefaultPodcastRepositoryTest {
 
     // ---- search ----
 
-    @Test fun `search returns client results wrapped in success, empty for none`() = runTest(dispatcher) {
-        itunes.results = listOf(
-            ItunesPodcastDto("A", "Au", "https://a/f", null, null, "News"),
-            ItunesPodcastDto("B", "Bu", "https://b/f", null, null, "Tech"),
+    @Test fun `search returns service results wrapped in success, empty for none`() = runTest(dispatcher) {
+        search.results = listOf(
+            PodcastSearchResult("https://a/f", "A", "Au", null, "News"),
+            PodcastSearchResult("https://b/f", "B", "Bu", null, "Tech"),
         )
         val r = repo.search("kotlin").getOrThrow()
         assertEquals(listOf("https://a/f", "https://b/f"), r.map { it.feedUrl })
-        itunes.results = emptyList()
+        search.results = emptyList()
         assertTrue(repo.search("kotlin").getOrThrow().isEmpty())
+        assertEquals(listOf("kotlin", "kotlin"), search.calls.map { it.first })
     }
 
     @Test fun `search wraps exceptions in failure`() = runTest(dispatcher) {
-        itunes.error = IOException("offline")
+        search.error = IOException("offline")
         assertTrue(repo.search("kotlin").exceptionOrNull() is IOException)
     }
 
     @Test fun `search rethrows CancellationException`() = runTest(dispatcher) {
-        itunes.error = CancellationException("cancelled")
+        search.error = CancellationException("cancelled")
         try {
             repo.search("kotlin")
             fail("expected CancellationException")
@@ -413,5 +406,36 @@ class DefaultPodcastRepositoryTest {
             assertEquals(4, second.size)
             cancelAndIgnoreRemainingEvents()
         }
+    }
+
+    // ---- setCustomOrder ----
+
+    @Test fun `setCustomOrder persists the order and observeLibrary re-emits it`() = runTest(dispatcher) {
+        val dao = db.podcastDao()
+        val a = dao.insert(podcastEntity(feedUrl = "a", title = "A", customOrder = 0))
+        val b = dao.insert(podcastEntity(feedUrl = "b", title = "B", customOrder = 1))
+        val c = dao.insert(podcastEntity(feedUrl = "c", title = "C", customOrder = 2))
+        repo.observeLibrary()
+            .map { it.sortPodcasts(SortOrder.CUSTOM) }
+            .test {
+                assertEquals(listOf(a, b, c), awaitItem().map { it.id })
+                repo.setCustomOrder(listOf(c, a, b))
+                assertEquals(listOf(c, a, b), awaitItem().map { it.id })
+                cancelAndIgnoreRemainingEvents()
+            }
+    }
+
+    @Test fun `setCustomOrder runs on the IO dispatcher`() = runTest {
+        val recording = com.punyplatipus.podouvir.data.network.RecordingDispatcher()
+        val r = newRepo(recording)
+        val a = db.podcastDao().insert(podcastEntity(feedUrl = "a", customOrder = 5))
+        r.setCustomOrder(listOf(a))
+        assertTrue(recording.used)
+        assertEquals(0, db.podcastDao().getById(a)!!.customOrder)
+    }
+
+    @Test fun `setCustomOrder with ids not in the library does not throw`() = runTest(dispatcher) {
+        repo.setCustomOrder(listOf(1L, 2L))
+        assertTrue(db.podcastDao().getAll().isEmpty())
     }
 }

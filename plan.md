@@ -21,7 +21,7 @@ sort them the way you like, and listen with reliable background playback and var
 ### MVP (v0.1)
 | Feature | Details |
 |---|---|
-| Discover / add podcasts | Search via the iTunes Search API (free, no key). Add by RSS URL as fallback. |
+| Discover / add podcasts | Search fyyd.de (open, no key) + Podcast Index (open, free key, optional at build time). Add by RSS URL as fallback. |
 | Library | Grid/list of subscribed podcasts. |
 | Group by genre | Genre comes from the feed (`itunes:category`) or search result; user can override. Collapsible genre sections. |
 | Sort | Title A–Z, Recently updated, Date added, Custom (drag to reorder). Persisted per user. |
@@ -31,16 +31,15 @@ sort them the way you like, and listen with reliable background playback and var
 | Resume | Saves playback position per episode; resumes where you left off. |
 | Mini-player | Persistent bar above bottom navigation; tap to expand to full player. |
 
-### Suggested for v0.2+ (proposals — confirm or drop)
-- [ ] **Up Next queue** (play next / add to queue, auto-advance).
-- [ ] **Sleep timer** (15/30/45/60 min, end of episode).
-- [ ] **Downloads** for offline listening (WorkManager + Media3 download cache), auto-delete played.
-- [ ] **Background feed refresh** with new-episode notifications (WorkManager, daily).
-- [ ] **OPML import/export** (move subscriptions from other apps).
-- [ ] **Per-podcast default speed** and **silence trimming** / volume boost.
-- [ ] **Chapters** (Podcasting 2.0 `podcast:chapters`) and transcripts.
-- [ ] **Home-screen widget** and **Android Auto**.
-- [ ] Custom speed slider (0.5x–3.0x) in addition to presets.
+### v0.2+ roadmap (order decided 2026-10-22: most-requested listening features first, then reach)
+1. [ ] **Up Next queue** (play next / add to queue, auto-advance) — fills the Queue tab already in the MVP shell.
+2. [ ] **Sleep timer** (15/30/45/60 min, end of episode) — small, high value for podcast listeners.
+3. [ ] **Background feed refresh** with new-episode notifications (WorkManager, daily).
+4. [ ] **Downloads** for offline listening (WorkManager + Media3 download cache), auto-delete played.
+5. [ ] **OPML import/export** (move subscriptions from other apps — key for F-Droid users switching apps).
+6. [ ] **Per-podcast default speed**, custom speed slider (0.5x–3.0x), **silence trimming** / volume boost.
+7. [ ] **Chapters** (Podcasting 2.0 `podcast:chapters`) and transcripts.
+8. [ ] **Home-screen widget** and **Android Auto**.
 
 ### Out of scope (for now)
 Accounts/cloud sync, video podcasts, social features, monetisation.
@@ -91,7 +90,7 @@ PlayerController (MediaController) ◄──► PlaybackService (Media3 MediaSes
 - **UI**: Jetpack Compose, Material 3, Navigation Compose (type-safe routes), Coil for images.
 - **DI**: Hilt.
 - **Persistence**: Room (podcasts, episodes, playback positions); DataStore for preferences (sort, view mode, speed).
-- **Networking**: OkHttp + Retrofit (kotlinx.serialization) for iTunes Search; RSS parsed with
+- **Networking**: OkHttp + Retrofit (kotlinx.serialization) for fyyd.de / Podcast Index search; RSS parsed with
   `XmlPullParser` (no heavy dependency).
 - **Playback**: AndroidX Media3 (ExoPlayer, MediaSessionService, MediaController).
 - **Background work**: WorkManager (feed refresh, downloads — v0.2).
@@ -137,10 +136,11 @@ com.punyplatipus.podouvir
 - [ ] Follow-up: wrap subscribe's podcast + episode inserts in one Room transaction
 
 ### M2 — Library & Discover UI
-- [ ] Navigation shell: bottom bar + mini-player slot
-- [ ] Discover: search + subscribe + add by URL
-- [ ] Library: genre chips, grouped sections, sort menu, grid/list, drag-reorder (custom sort)
-- [ ] Change genre dialog
+- [ ] Navigation shell: bottom bar + mini-player slot (#011)
+- [ ] Discover: search + subscribe + add by URL (#008)
+- [ ] Search via fyyd.de + Podcast Index, iTunes removed (#012)
+- [ ] Library: genre chips, grouped sections, sort menu, grid/list, custom reorder (#006, #009, #010)
+- [ ] Change genre dialog (#007)
 
 ### M3 — Playback
 - [ ] `PlaybackService` (Media3) with notification + media session
@@ -160,31 +160,31 @@ com.punyplatipus.podouvir
 - [ ] Screenshots (EN + PT) in fastlane metadata
 
 ## 6. Open questions (need owner input)
-Answered 2026-10-22: licence **GPL-3.0-or-later**; name **PodOuvir**, package `com.punyplatipus.podouvir`; ear logo in red/yellow;
+Answered 2026-10-22: search **fyyd.de + Podcast Index** (no iTunes); Portuguese **pt-BR only**; v0.2 order decided by the agent team (§2); licence **GPL-3.0-or-later**; name **PodOuvir**, package `com.punyplatipus.podouvir`; ear logo in red/yellow;
 F-Droid; English + Portuguese.
 
 Still open:
-1. **Search provider** — the iTunes Search API is a proprietary service; F-Droid will flag the app with
-   the *NonFreeNet* anti-feature. Alternatives: Podcast Index (open, needs a free API key) or fyyd.de
-   (open, no key). Keep iTunes, switch, or offer a choice in settings?
-2. **Portuguese variant** — the app uses `values-pt` (works for Brazil and Portugal); store text is
-   `pt-BR`. Do you want pt-PT too?
-3. **v0.2 order** — which of the suggestions in §2 to keep, and in what order.
-4. **GitHub repo name** — code says PodOuvir but the repo is still `ramonvidal/booksco`. Rename it on
-   GitHub to `podouvir` (Settings → Repository name; old URLs redirect)?
+1. **Podcast Index key** — register (free) at https://api.podcastindex.org and put `podcastIndex.key` /
+   `podcastIndex.secret` in `local.properties` (never committed). Without it the app searches fyyd only.
+   For F-Droid builds: commit the key in the build recipe (common practice, e.g. AntennaPod) or ship fyyd-only?
+2. **GitHub repo name** — owner will rename `ramonvidal/booksco` → `podouvir` on GitHub (Settings → Repository name);
+   then run `git remote set-url origin git@github.com:ramonvidal/podouvir.git` (old URL keeps redirecting).
 
 ## 7. Decisions log
 | Date | Decision | Why |
 |---|---|---|
 | 2026-10-22 | Compose + Material 3, single-activity | Modern standard, least code |
 | 2026-10-22 | Media3 for playback | Official, handles session/notification/focus |
-| 2026-10-22 | iTunes Search API for discovery | Free, no API key, returns genre |
+| 2026-10-22 | ~~iTunes Search API~~ → fyyd.de + Podcast Index | Owner: open directories only (avoids F-Droid NonFreeNet) |
 | 2026-10-22 | Single `app` module initially | Keep setup simple; split into modules after M3 if needed |
 | 2026-10-22 | Renamed to PodOuvir, package `com.punyplatipus.podouvir` | Owner's choice |
 | 2026-10-22 | Brand red/yellow palette by default; dynamic color opt-in | Owner wants a recognisable red/yellow identity |
 | 2026-10-22 | F-Droid distribution; fastlane metadata in repo | Owner's choice; F-Droid reads this layout |
-| 2026-10-22 | `values-pt` for Portuguese (covers pt-BR and pt-PT) | One translation until a variant is needed |
+| 2026-10-22 | Portuguese = Brazilian only; resources in `values-pt` (pt-PT users also get pt-BR text), store text `pt-BR` | Owner: Brazil only |
 | 2026-10-22 | Orchestrator + test-planner / coder / tester subagents | Cheaper model writes code; tests planned independently of the implementation |
 | 2026-10-22 | Licence GPL-3.0-or-later | Owner's choice; required by F-Droid, keeps forks free |
 | 2026-10-22 | Robolectric for RSS (XmlPullParser) and Room tests | Both need Android runtime classes; keeps tests on the JVM in CI |
 | 2026-10-22 | Feed URL identity = trimmed string | Simple and predictable; revisit if duplicates appear |
+| 2026-10-22 | Library reorder via up/down buttons in a reorder mode (not drag) | No extra dependency, accessible with TalkBack, simpler for the coder model |
+| 2026-10-22 | Per-feature string files (`strings_<feature>.xml`) | Parallel agents never edit the same resource file |
+| 2026-10-22 | Podcast Index credentials from local.properties/env into BuildConfig | Keys never committed; fyyd works without a key |
