@@ -122,18 +122,19 @@ com.punyplatipus.podouvir
 - [x] Gradle (Kotlin DSL + version catalog), Compose + Hilt skeleton, theme
 - [x] GitHub Actions CI (build, unit tests, lint)
 - [ ] Generate Gradle wrapper (`gradle wrapper`) — needs a machine with Gradle/Android Studio
-- [ ] First green CI run
+- [x] First green CI run
 
 ### M0.5 — Agent team ✅
 - [x] Orchestrator workflow (`orchestrate` skill, `orchestrator` agent)
 - [x] Subagents: `test-planner`, `coder` (cheaper model), `tester`
 - [x] Rename to PodOuvir, brand palette + ear logo, EN/PT strings, F-Droid metadata
 
-### M1 — Data layer
-- [ ] Room DB: entities, DAOs, migrations strategy (exported schemas)
-- [ ] iTunes Search client + RSS parser (with fixture-based tests)
-- [ ] `PodcastRepository`: subscribe, unsubscribe, refresh, observe library
-- [ ] Pure functions: `groupByGenre`, `sortPodcasts` (fully unit-tested)
+### M1 — Data layer ✅ (165 tests green in CI)
+- [x] Room DB: entities, DAOs, migrations strategy (exported schemas) — #003; commit `app/schemas/.../1.json` after the first local build
+- [x] iTunes Search client + RSS parser (with fixture-based tests) — #002, #004
+- [x] `PodcastRepository`: subscribe, unsubscribe, refresh, observe library — #005
+- [x] Pure functions: `groupByGenre`, `sortPodcasts` (fully unit-tested) — #001
+- [ ] Follow-up: wrap subscribe's podcast + episode inserts in one Room transaction
 
 ### M2 — Library & Discover UI
 - [ ] Navigation shell: bottom bar + mini-player slot
