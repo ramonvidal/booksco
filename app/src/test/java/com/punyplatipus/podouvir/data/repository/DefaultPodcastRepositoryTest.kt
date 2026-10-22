@@ -15,6 +15,7 @@ import com.punyplatipus.podouvir.data.rss.FeedParseException
 import com.punyplatipus.podouvir.data.rss.RssParser
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -109,7 +110,7 @@ class DefaultPodcastRepositoryTest {
         assertEquals(1, podcasts.size)
         assertEquals(id, podcasts[0].id)
         assertEquals("Simple Show", podcasts[0].title)
-        val eps = repo.observeEpisodes(id).let { f -> f.test { awaitItem().also { cancelAndIgnoreRemainingEvents() } } }
+        val eps = repo.observeEpisodes(id).first()
         assertEquals(setOf("guid-1", "guid-2", "guid-3"), eps.map { it.guid }.toSet())
     }
 
@@ -166,7 +167,7 @@ class DefaultPodcastRepositoryTest {
         assertEquals(id, again.getOrThrow())
         assertEquals(1, fetcher.requested.size)
         assertEquals(1, db.podcastDao().getAll().size)
-        assertEquals(3, db.episodeDao().observeForPodcast(id).let { f -> f.test { awaitItem().size.also { cancelAndIgnoreRemainingEvents() } } })
+        assertEquals(3, db.episodeDao().observeForPodcast(id).first().size)
     }
 
     @Test fun `subscribe returns IOException failure on network error and writes nothing`() = runTest(dispatcher) {
@@ -300,7 +301,7 @@ class DefaultPodcastRepositoryTest {
 
     @Test fun `refresh preserves existing episode state`() = runTest(dispatcher) {
         val id = subscribeOk()
-        val ep = repo.observeEpisodes(id).test { awaitItem().first().also { cancelAndIgnoreRemainingEvents() } }
+        val ep = repo.observeEpisodes(id).first().first()
         db.playbackStateDao().upsert(PlaybackStateEntity(ep.id, 4_000L, true, 9L))
         fetcher.responses[url] = plusOne
         repo.refresh(id).getOrThrow()

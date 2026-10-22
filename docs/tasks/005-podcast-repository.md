@@ -195,6 +195,7 @@ Files: data/network/FeedFetcher.kt, data/repository/PodcastRepository.kt, Defaul
 - refresh keeps the stored genre when the feed genre is blank (`feed.genre.ifBlank { existing.genre }`).
 
 ## Test results
+round 1: compile errors fixed (Turbine `test` returns Unit; replaced value-returning uses with `flow.first()`).
 Not run: no JDK/Android SDK on this machine (`java` not found). CI runs them. Tests reviewed by eye against the implementation.
 Plan's ~47 cases merged into 36 tests (near-duplicates combined; every acceptance criterion covered). Dropped: "url differing only by normalisation" (spec says trim only, so no normaliser exists; covered by the trim case).
 Added fixtures: `rss/no_genre_feed.xml`, `rss/simple_feed_plus_one.xml`; existing `rss/simple_feed.xml` and `rss/malformed.xml` reused.
