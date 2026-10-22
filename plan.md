@@ -1,4 +1,4 @@
-# Booksco — Android Podcast App: Plan
+# PodOuvir — Android Podcast App: Plan
 
 > Living document. Update the checkboxes and the "Decisions log" as work lands.
 
@@ -11,7 +11,9 @@ sort them the way you like, and listen with reliable background playback and var
 - **Robust first**: playback must survive screen-off, app backgrounding, process death and audio-focus
   changes. Position is never lost.
 - **Offline-first**: the local database is the source of truth; network refreshes it.
-- **Modern UI**: Material 3, Jetpack Compose, dynamic color (Material You), dark theme, edge-to-edge.
+- **Modern UI**: Material 3, Jetpack Compose, red/yellow brand palette, dark theme, edge-to-edge.
+- **Free software**: shipped on F-Droid — no proprietary libraries, no tracking.
+- **Bilingual**: English and Portuguese from day one.
 - **Small and testable**: every feature has unit tests for its ViewModel and repository logic.
 
 ## 2. Scope
@@ -45,7 +47,8 @@ Accounts/cloud sync, video podcasts, social features, monetisation.
 
 ## 3. Interface design
 
-Material 3 with dynamic color (falls back to a branded purple/teal palette on Android < 12).
+Material 3 with the PodOuvir brand palette (warm red + yellow); wallpaper-based dynamic color is an opt-in setting.
+Logo: a yellow ear receiving sound waves on a red→orange gradient (adaptive + monochrome icon).
 Bottom navigation with 3 destinations + a persistent mini-player.
 
 ```
@@ -95,10 +98,11 @@ PlayerController (MediaController) ◄──► PlaybackService (Media3 MediaSes
 - **Testing**: JUnit4, kotlinx-coroutines-test, Turbine, MockK; Room in-memory tests; Compose UI tests for key flows.
 - **Quality**: Android Lint, ktlint (via Spotless), GitHub Actions CI on every PR.
 - **Min SDK 26 / Target SDK 35.**
+- **Distribution**: F-Droid (store text in `fastlane/metadata/android/{en-US,pt-BR}`).
 
 ### Package layout (single `app` module to start; modularise when it grows)
 ```
-com.punyplatipus.booksco
+com.punyplatipus.podouvir
 ├── data/        db/ (Room entities, DAOs), network/ (iTunes, RSS), repository/
 ├── domain/      model/ (Podcast, Episode, Genre, SortOrder), pure logic (grouping, sorting)
 ├── playback/    PlaybackService, PlayerController, position persistence
@@ -119,6 +123,11 @@ com.punyplatipus.booksco
 - [x] GitHub Actions CI (build, unit tests, lint)
 - [ ] Generate Gradle wrapper (`gradle wrapper`) — needs a machine with Gradle/Android Studio
 - [ ] First green CI run
+
+### M0.5 — Agent team ✅
+- [x] Orchestrator workflow (`orchestrate` skill, `orchestrator` agent)
+- [x] Subagents: `test-planner`, `coder` (cheaper model), `tester`
+- [x] Rename to PodOuvir, brand palette + ear logo, EN/PT strings, F-Droid metadata
 
 ### M1 — Data layer
 - [ ] Room DB: entities, DAOs, migrations strategy (exported schemas)
@@ -143,16 +152,27 @@ com.punyplatipus.booksco
 ### M4 — Polish & release v0.1
 - [ ] Podcast detail with Palette-tinted header, played markers
 - [ ] Empty/error/loading states, pull-to-refresh
+- [ ] Settings: theme (system/light/dark), dynamic color toggle, language picker
 - [ ] Accessibility pass (TalkBack labels, touch targets, font scaling)
 - [ ] App icon, splash screen, R8 release build, signing config
-- [ ] Internal testing release (Play Console) — needs developer account
+- [ ] F-Droid: choose licence, tag `v0.1.0`, open a merge request to `fdroiddata` with the build recipe
+- [ ] Screenshots (EN + PT) in fastlane metadata
 
 ## 6. Open questions (need owner input)
-1. Final **app name** (repo is `booksco`) and **package/applicationId** (currently `com.punyplatipus.booksco`).
-2. Which v0.2 suggestions to adopt, and in what order.
-3. Brand colours / logo, or rely on dynamic color + placeholder palette?
-4. Distribution: Google Play (needs developer account), F-Droid, or sideload only?
-5. Languages: English only, or also Portuguese/Spanish from day one?
+Answered 2026-10-22: name **PodOuvir**, package `com.punyplatipus.podouvir`; ear logo in red/yellow;
+F-Droid; English + Portuguese.
+
+Still open:
+1. **Licence** — F-Droid only accepts free-software licences. Suggest **GPL-3.0-or-later** (keeps
+   forks open) or **Apache-2.0** (more permissive). Nothing is published until this is chosen.
+2. **Search provider** — the iTunes Search API is a proprietary service; F-Droid will flag the app with
+   the *NonFreeNet* anti-feature. Alternatives: Podcast Index (open, needs a free API key) or fyyd.de
+   (open, no key). Keep iTunes, switch, or offer a choice in settings?
+3. **Portuguese variant** — the app uses `values-pt` (works for Brazil and Portugal); store text is
+   `pt-BR`. Do you want pt-PT too?
+4. **v0.2 order** — which of the suggestions in §2 to keep, and in what order.
+5. **GitHub repo name** — code says PodOuvir but the repo is still `ramonvidal/booksco`. Rename it on
+   GitHub to `podouvir` (Settings → Repository name; old URLs redirect)?
 
 ## 7. Decisions log
 | Date | Decision | Why |
@@ -161,3 +181,8 @@ com.punyplatipus.booksco
 | 2026-10-22 | Media3 for playback | Official, handles session/notification/focus |
 | 2026-10-22 | iTunes Search API for discovery | Free, no API key, returns genre |
 | 2026-10-22 | Single `app` module initially | Keep setup simple; split into modules after M3 if needed |
+| 2026-10-22 | Renamed to PodOuvir, package `com.punyplatipus.podouvir` | Owner's choice |
+| 2026-10-22 | Brand red/yellow palette by default; dynamic color opt-in | Owner wants a recognisable red/yellow identity |
+| 2026-10-22 | F-Droid distribution; fastlane metadata in repo | Owner's choice; F-Droid reads this layout |
+| 2026-10-22 | `values-pt` for Portuguese (covers pt-BR and pt-PT) | One translation until a variant is needed |
+| 2026-10-22 | Orchestrator + test-planner / coder / tester subagents | Cheaper model writes code; tests planned independently of the implementation |

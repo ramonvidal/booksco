@@ -1,0 +1,8 @@
+PodOuvir is a simple, robust podcast player.
+
+* Search and subscribe to podcasts, or add any RSS feed
+* Organise your library by genre and sort it your way
+* Play, pause, stop, skip and listen at 1x, 1.25x, 1.5x or 2x
+* Reliable background playback with lock-screen and headset controls
+* Resumes every episode where you left off
+* No accounts, no tracking

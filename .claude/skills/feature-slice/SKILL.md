@@ -1,6 +1,6 @@
 ---
 name: feature-slice
-description: Step-by-step recipe to add a Booksco feature end-to-end (model, data, ViewModel, UI, tests, plan update). Use when implementing any item from plan.md milestones.
+description: Step-by-step recipe to add a PodOuvir feature end-to-end (model, data, ViewModel, UI, tests, plan update). Use when implementing any item from plan.md milestones.
 ---
 
 # Adding a feature

@@ -1,3 +1,3 @@
 <resources>
-    <style name="Theme.Booksco" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.PodOuvir" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>

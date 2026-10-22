@@ -1,0 +1,8 @@
+PodOuvir é um player de podcasts simples e confiável.
+
+* Busque e assine podcasts, ou adicione qualquer feed RSS
+* Organize sua biblioteca por gênero e ordene do seu jeito
+* Toque, pause, pare, avance e ouça em 1x, 1,25x, 1,5x ou 2x
+* Reprodução em segundo plano com controles na tela de bloqueio e no fone
+* Retoma cada episódio de onde você parou
+* Sem contas, sem rastreamento

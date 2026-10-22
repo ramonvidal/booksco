@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "booksco"
+rootProject.name = "podouvir"
 include(":app")

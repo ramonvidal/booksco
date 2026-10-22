@@ -1,4 +1,4 @@
-package com.punyplatipus.booksco.ui.library
+package com.punyplatipus.podouvir.ui.library
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,8 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.punyplatipus.booksco.R
-import com.punyplatipus.booksco.ui.theme.BookscoTheme
+import com.punyplatipus.podouvir.R
+import com.punyplatipus.podouvir.ui.theme.PodOuvirTheme
 
 // Placeholder until M2 replaces it with the grouped, sortable library.
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,5 +39,5 @@ fun LibraryScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun LibraryScreenPreview() {
-    BookscoTheme { LibraryScreen() }
+    PodOuvirTheme { LibraryScreen() }
 }

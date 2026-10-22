@@ -1,6 +1,6 @@
 ---
 name: compose-ui
-description: Conventions for building Booksco screens and components in Jetpack Compose with Material 3. Use when creating or changing any UI, theme, navigation or component.
+description: Conventions for building PodOuvir screens and components in Jetpack Compose with Material 3. Use when creating or changing any UI, theme, navigation or component.
 ---
 
 # Compose UI conventions

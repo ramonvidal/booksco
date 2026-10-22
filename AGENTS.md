@@ -4,8 +4,8 @@ Guidance for AI coding agents (Claude Code, Codex, Copilot, etc.) working in thi
 Read `plan.md` first: it holds the scope, milestones and open questions.
 
 ## Project
-Booksco — an Android podcast player. Kotlin, Jetpack Compose (Material 3), Hilt, Room, DataStore,
-Retrofit/OkHttp, AndroidX Media3. Single `app` module, package `com.punyplatipus.booksco`.
+PodOuvir — an Android podcast player (F-Droid, English + Portuguese). Kotlin, Jetpack Compose (Material 3), Hilt, Room, DataStore,
+Retrofit/OkHttp, AndroidX Media3. Single `app` module, package `com.punyplatipus.podouvir`.
 
 ## Commands
 ```bash
@@ -27,6 +27,12 @@ say so explicitly.
   create an `ExoPlayer` outside `PlaybackService`.
 - Inject dispatchers; never hardcode `Dispatchers.IO` in classes you want to test.
 
+## Product constraints
+- **F-Droid**: only free-software dependencies. No Google Play Services, Firebase, Crashlytics, analytics or ads.
+- **Languages**: every user-visible string exists in `res/values/strings.xml` (EN) and
+  `res/values-pt/strings.xml` (PT). Store text lives in `fastlane/metadata/android/{en-US,pt-BR}`.
+- **Brand**: use theme colors (red/yellow palette in `ui/theme/Color.kt`), never raw hex in UI code.
+
 ## Code style
 - Kotlin official style; 4-space indent; max line 120.
 - Composables: `PascalCase`, first optional param is `modifier: Modifier = Modifier`.
@@ -44,7 +50,13 @@ say so explicitly.
 - Conventional commits (`feat:`, `fix:`, `chore:`, `test:`, `docs:`).
 - Record notable decisions in the "Decisions log" in `plan.md`.
 
+## Agent team (in `.claude/agents/`)
+The `orchestrate` skill (or `claude --agent orchestrator`) drives the work: it splits a `plan.md` item into
+tasks in `docs/tasks/`, then for each task runs `test-planner` → `coder` → `tester`, loops on failures,
+reviews and commits. If you are one of those subagents, stay inside your role as described in your agent file.
+
 ## Skills (in `.claude/skills/`)
+- `orchestrate` — the multi-agent workflow above.
 - `android-build-verify` — how to build, test and lint; what to do without an SDK.
 - `compose-ui` — design system, screen structure, previews, accessibility.
 - `media3-playback` — rules for the playback service, speeds, positions, focus.

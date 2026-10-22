@@ -1,4 +1,4 @@
-package com.punyplatipus.booksco.domain.model
+package com.punyplatipus.podouvir.domain.model
 
 data class Podcast(
     val id: Long,

@@ -1,6 +1,6 @@
 ---
 name: android-build-verify
-description: Build, test and lint the Booksco Android app and verify a change works. Use before declaring any code change done, when CI fails, or when Gradle/SDK setup is in question.
+description: Build, test and lint the PodOuvir Android app and verify a change works. Use before declaring any code change done, when CI fails, or when Gradle/SDK setup is in question.
 ---
 
 # Build & verify

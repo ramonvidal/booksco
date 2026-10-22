@@ -3,8 +3,29 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- Placeholder microphone glyph -->
+    <!-- Ear: outer helix -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,30a9,9 0,0 0,-9 9v15a9,9 0,0 0,18 0V39a9,9 0,0 0,-9 -9zM39,52h4a11,11 0,0 0,22 0h4a15,15 0,0 1,-13 14.9V74h-4v-7.1A15,15 0,0 1,39 52z" />
+        android:strokeColor="#FFC107"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M46,52 C46,39 55,31 65,31 C75,31 82,39 82,49 C82,57 77,61 73,65 C69,69 68,72 68,77 C68,83 63,86 58,86 C54,86 51,84 50,81" />
+    <!-- Ear: inner fold -->
+    <path
+        android:strokeColor="#FFC107"
+        android:strokeWidth="5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M56,52 C56,45 60,41 65,41 C70,41 73,45 73,49 C73,53 69,55 66,56 C63,57 62,60 63,63" />
+    <!-- Sound waves arriving -->
+    <path
+        android:strokeColor="#FFE082"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:pathData="M38,51 Q33,58 38,65" />
+    <path
+        android:strokeColor="#FFE082"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:pathData="M31,45 Q23,58 31,71" />
 </vector>

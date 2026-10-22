@@ -1,6 +1,6 @@
 ---
 name: media3-playback
-description: Rules for audio playback in Booksco using AndroidX Media3 (ExoPlayer, MediaSessionService, MediaController) — play/pause/stop, speed, seek, position saving, notifications, audio focus. Use for any change touching playback.
+description: Rules for audio playback in PodOuvir using AndroidX Media3 (ExoPlayer, MediaSessionService, MediaController) — play/pause/stop, speed, seek, position saving, notifications, audio focus. Use for any change touching playback.
 ---
 
 # Media3 playback

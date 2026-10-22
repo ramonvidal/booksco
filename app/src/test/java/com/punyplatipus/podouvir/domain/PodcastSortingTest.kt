@@ -1,9 +1,9 @@
-package com.punyplatipus.booksco.domain
+package com.punyplatipus.podouvir.domain
 
-import com.punyplatipus.booksco.domain.model.Podcast
-import com.punyplatipus.booksco.domain.model.SortOrder
-import com.punyplatipus.booksco.domain.model.groupByGenre
-import com.punyplatipus.booksco.domain.model.sortPodcasts
+import com.punyplatipus.podouvir.domain.model.Podcast
+import com.punyplatipus.podouvir.domain.model.SortOrder
+import com.punyplatipus.podouvir.domain.model.groupByGenre
+import com.punyplatipus.podouvir.domain.model.sortPodcasts
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
