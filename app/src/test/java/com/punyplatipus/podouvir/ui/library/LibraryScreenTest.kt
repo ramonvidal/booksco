@@ -243,27 +243,7 @@ class LibraryScreenTest {
         rule.onAllNodesWithContentDescription(down)[1].assertIsEnabled()
     }
 
-    @Test
-    fun `long press opens menu and Change genre shows dialog and confirms with reset to feed genre`() {
-        val p = podcast(7, "Alpha", genre = "Technology", genreOverride = "Comedy")
-        render(
-            state(
-                groups = listOf(GenreGroup("Comedy", listOf(p))), genres = listOf("Technology", "News"),
-                viewMode = ViewMode.LIST,
-            ),
-        )
-        rule.onNodeWithText("Alpha").performTouchInput { longClick() }
-        rule.onNodeWithText(str(R.string.library_change_genre)).assertExists()
-        rule.onNodeWithText(str(R.string.library_unsubscribe)).assertExists()
-        rule.onNodeWithText(str(R.string.library_change_genre)).performClick()
-        // Dialog is open: text field present, menu items gone.
-        rule.onNode(hasSetTextAction()).assertExists()
-        rule.onAllNodesWithText(str(R.string.library_unsubscribe)).assertCountEquals(0)
-        // Dialog is prefilled with the override; "Use feed genre" resets it (typing is avoided: it
-        // hung Compose idling in round 1 when the dialog sat over the lazy list).
-        rule.onNodeWithText(str(R.string.components_change_genre_use_feed, "Technology")).performClick()
-        assertEquals(listOf<Pair<Long, String?>>(7L to null), changed)
-    }
+    // Change-genre dialog wiring lives in LibraryChangeGenreTest (default screen size).
 
     @Test
     fun `unsubscribe asks for confirmation naming the podcast before calling onUnsubscribe`() {
