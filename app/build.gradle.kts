@@ -39,10 +39,19 @@ android {
     buildFeatures {
         compose = true
     }
+    testOptions {
+        // Robolectric needs merged resources/manifest for Room and XmlPullParser tests.
+        unitTests.isIncludeAndroidResources = true
+    }
     lint {
         warningsAsErrors = false
         abortOnError = true
     }
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.generateKotlin", "true")
 }
 
 dependencies {
@@ -63,6 +72,14 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
+    implementation(libs.okhttp)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.kotlinx.serialization)
+
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
@@ -71,6 +88,9 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.okhttp.mockwebserver)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

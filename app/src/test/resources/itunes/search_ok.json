@@ -1,0 +1,5 @@
+{"resultCount":3,"results":[
+{"wrapperType":"track","kind":"podcast","trackId":1,"collectionName":"Kotlin Talks","artistName":"Ana","feedUrl":"https://example.com/kotlin.xml","artworkUrl600":"https://img.example.com/kotlin600.jpg","artworkUrl100":"https://img.example.com/kotlin100.jpg","primaryGenreName":"Technology","genreIds":["1318","26"]},
+{"kind":"podcast","trackId":2,"collectionName":"Only Small Art","artistName":"Bob","feedUrl":"https://example.com/small.xml","artworkUrl100":"https://img.example.com/small100.jpg","primaryGenreName":"News","genreIds":["1489"]},
+{"kind":"podcast","trackId":3,"collectionName":"Both Art","artistName":"Cy","feedUrl":"https://example.com/both.xml","artworkUrl600":"https://img.example.com/both600.jpg","artworkUrl100":"https://img.example.com/both100.jpg","primaryGenreName":"Comedy","genreIds":[]}
+]}

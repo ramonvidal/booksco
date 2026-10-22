@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <image>
+      <title>Image Title</title>
+      <url>  https://example.com/fallback.png  </url>
+    </image>
+    <title>
+      Messy Show
+    </title>
+    <itunes:summary>
+      Summary only description
+    </itunes:summary>
+    <itunes:category text="Society">
+      <itunes:category text="Documentary"/>
+    </itunes:category>
+    <itunes:category text="News"/>
+    <item>
+      <title>  Item With CDATA  </title>
+      <description><![CDATA[<p>Hi <b>there</b></p>]]></description>
+      <enclosure url="https://example.com/a.mp3" type="audio/mpeg"/>
+      <pubDate>Tue, 21 Oct 2026 08:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>No Enclosure</title>
+      <guid>no-enclosure</guid>
+    </item>
+    <item>
+      <title>Summary Item</title>
+      <itunes:summary> item summary </itunes:summary>
+      <guid>g-3</guid>
+      <enclosure url="https://example.com/c.mp3" type="audio/mpeg"/>
+      <itunes:duration>90</itunes:duration>
+    </item>
+  </channel>
+</rss>

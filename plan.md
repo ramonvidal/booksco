@@ -155,23 +155,21 @@ com.punyplatipus.podouvir
 - [ ] Settings: theme (system/light/dark), dynamic color toggle, language picker
 - [ ] Accessibility pass (TalkBack labels, touch targets, font scaling)
 - [ ] App icon, splash screen, R8 release build, signing config
-- [ ] F-Droid: choose licence, tag `v0.1.0`, open a merge request to `fdroiddata` with the build recipe
+- [ ] F-Droid: tag `v0.1.0`, open a merge request to `fdroiddata` with the build recipe
 - [ ] Screenshots (EN + PT) in fastlane metadata
 
 ## 6. Open questions (need owner input)
-Answered 2026-10-22: name **PodOuvir**, package `com.punyplatipus.podouvir`; ear logo in red/yellow;
+Answered 2026-10-22: licence **GPL-3.0-or-later**; name **PodOuvir**, package `com.punyplatipus.podouvir`; ear logo in red/yellow;
 F-Droid; English + Portuguese.
 
 Still open:
-1. **Licence** — F-Droid only accepts free-software licences. Suggest **GPL-3.0-or-later** (keeps
-   forks open) or **Apache-2.0** (more permissive). Nothing is published until this is chosen.
-2. **Search provider** — the iTunes Search API is a proprietary service; F-Droid will flag the app with
+1. **Search provider** — the iTunes Search API is a proprietary service; F-Droid will flag the app with
    the *NonFreeNet* anti-feature. Alternatives: Podcast Index (open, needs a free API key) or fyyd.de
    (open, no key). Keep iTunes, switch, or offer a choice in settings?
-3. **Portuguese variant** — the app uses `values-pt` (works for Brazil and Portugal); store text is
+2. **Portuguese variant** — the app uses `values-pt` (works for Brazil and Portugal); store text is
    `pt-BR`. Do you want pt-PT too?
-4. **v0.2 order** — which of the suggestions in §2 to keep, and in what order.
-5. **GitHub repo name** — code says PodOuvir but the repo is still `ramonvidal/booksco`. Rename it on
+3. **v0.2 order** — which of the suggestions in §2 to keep, and in what order.
+4. **GitHub repo name** — code says PodOuvir but the repo is still `ramonvidal/booksco`. Rename it on
    GitHub to `podouvir` (Settings → Repository name; old URLs redirect)?
 
 ## 7. Decisions log
@@ -186,3 +184,6 @@ Still open:
 | 2026-10-22 | F-Droid distribution; fastlane metadata in repo | Owner's choice; F-Droid reads this layout |
 | 2026-10-22 | `values-pt` for Portuguese (covers pt-BR and pt-PT) | One translation until a variant is needed |
 | 2026-10-22 | Orchestrator + test-planner / coder / tester subagents | Cheaper model writes code; tests planned independently of the implementation |
+| 2026-10-22 | Licence GPL-3.0-or-later | Owner's choice; required by F-Droid, keeps forks free |
+| 2026-10-22 | Robolectric for RSS (XmlPullParser) and Room tests | Both need Android runtime classes; keeps tests on the JVM in CI |
+| 2026-10-22 | Feed URL identity = trimmed string | Simple and predictable; revisit if duplicates appear |

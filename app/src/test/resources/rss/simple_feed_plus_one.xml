@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>Simple Show Renamed</title>
+    <itunes:author>John Host</itunes:author>
+    <description>Updated description.</description>
+    <itunes:image href="https://example.com/art2.jpg"/>
+    <itunes:category text="Science"/>
+    <item>
+      <title>Episode One</title>
+      <description>First episode</description>
+      <guid>guid-1</guid>
+      <enclosure url="https://example.com/1.mp3" length="123" type="audio/mpeg"/>
+      <itunes:duration>1:02:03</itunes:duration>
+      <pubDate>Tue, 21 Oct 2026 08:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Episode Two</title>
+      <description>Second episode</description>
+      <guid>guid-2</guid>
+      <enclosure url="https://example.com/2.mp3" length="123" type="audio/mpeg"/>
+      <itunes:duration>1800</itunes:duration>
+      <pubDate>Tue, 14 Oct 2026 08:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Episode Three</title>
+      <description>Third episode</description>
+      <guid>guid-3</guid>
+      <enclosure url="https://example.com/3.mp3" length="123" type="audio/mpeg"/>
+      <itunes:duration>45:30</itunes:duration>
+      <pubDate>Tue, 7 Oct 2026 08:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Episode Four</title>
+      <description>Fourth episode</description>
+      <guid>guid-4</guid>
+      <enclosure url="https://example.com/4.mp3" length="123" type="audio/mpeg"/>
+      <itunes:duration>600</itunes:duration>
+      <pubDate>Tue, 28 Oct 2026 08:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

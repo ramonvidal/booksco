@@ -26,3 +26,10 @@ See [AGENTS.md](AGENTS.md). The work is driven by an orchestrator and three suba
 ```bash
 claude --agent orchestrator   # or, in any Claude Code session: "orchestrate the next plan item"
 ```
+
+## License
+PodOuvir is free software: you can redistribute it and/or modify it under the terms of the
+GNU General Public License as published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version. See [LICENSE](LICENSE).
+
+SPDX-License-Identifier: GPL-3.0-or-later
