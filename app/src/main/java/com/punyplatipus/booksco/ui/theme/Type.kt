@@ -1,0 +1,5 @@
+package com.punyplatipus.booksco.ui.theme
+
+import androidx.compose.material3.Typography
+
+val Typography = Typography()
