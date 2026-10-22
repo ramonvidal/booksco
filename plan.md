@@ -135,14 +135,15 @@ com.punyplatipus.podouvir
 - [x] Pure functions: `groupByGenre`, `sortPodcasts` (fully unit-tested) — #001
 - [ ] Follow-up: wrap subscribe's podcast + episode inserts in one Room transaction
 
-### M2 — Library & Discover UI
-- [ ] Navigation shell: bottom bar + mini-player slot (#011)
-- [ ] Discover: search + subscribe + add by URL (#008)
-- [ ] Search via fyyd.de + Podcast Index, iTunes removed (#012)
-- [ ] Library: genre chips, grouped sections, sort menu, grid/list, custom reorder (#006, #009, #010)
-- [ ] Change genre dialog (#007)
+### M2 — Library & Discover UI ✅ (all tests green in CI)
+- [x] Navigation shell: bottom bar + mini-player slot (#011)
+- [x] Discover: search + subscribe + add by URL (#008)
+- [x] Search via fyyd.de + Podcast Index, iTunes removed (#012)
+- [x] Library: genre chips, grouped sections, sort menu, grid/list, custom reorder (#006, #009, #010)
+- [x] Change genre dialog (#007)
 
-- [ ] Manual check on a device: type a new genre in the Library long-press → Change genre dialog (Robolectric hung on this path; the automated test uses the reset button instead)
+- [ ] Manual check on a device: Library long-press → Change genre → type a genre → Save (Robolectric hung on this flow under a tall-screen qualifier; it passes on the default size, so likely a test-env quirk)
+- [ ] Manual check: search works without a Podcast Index key (fyyd only) and with one
 
 ### M3 — Playback
 - [ ] `PlaybackService` (Media3) with notification + media session
@@ -190,3 +191,4 @@ Still open:
 | 2026-10-22 | Library reorder via up/down buttons in a reorder mode (not drag) | No extra dependency, accessible with TalkBack, simpler for the coder model |
 | 2026-10-22 | Per-feature string files (`strings_<feature>.xml`) | Parallel agents never edit the same resource file |
 | 2026-10-22 | Podcast Index credentials from local.properties/env into BuildConfig | Keys never committed; fyyd works without a key |
+| 2026-10-22 | Unit-test JVM: 2 GB heap, fork every 100 classes | Robolectric + Compose tests ran out of the default 512 MB |
