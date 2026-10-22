@@ -127,7 +127,7 @@ All cases are `unit` (JVM) unless marked `room`. The existing `PodcastDaoTest` a
 - Real-device DataStore file corruption handling: the task does not specify it.
 
 ## Implementation notes
-Status: implemented, not built (no SDK).
+Status: done
 - New: `domain/model/LibrarySettings.kt`, `data/prefs/LibraryPreferences.kt`, `di/PreferencesModule.kt`.
 - Modified: `PodcastDao` (`setCustomOrder`, `reorder` with `@Transaction`), `DefaultPodcastRepository.setCustomOrder` (withContext(ioDispatcher) -> `reorder`).
 - Tests can reference internal keys in `LibraryPreferences.kt`: `SORT_ORDER_KEY`, `VIEW_MODE_KEY`, `SELECTED_GENRE_KEY` (string keys named `library_sort_order`, `library_view_mode`, `library_selected_genre`; name constants `KEY_NAME_*`).
