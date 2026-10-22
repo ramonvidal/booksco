@@ -45,14 +45,14 @@ jobs:
                       n += 1
           print(f"{n} failing test cases")
           PY
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: reports
           path: |
             app/build/reports/
             app/build/test-results/
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: app-debug-apk
           path: app/build/outputs/apk/debug/*.apk
