@@ -57,6 +57,11 @@ android {
     testOptions {
         // Robolectric needs merged resources/manifest for Room and XmlPullParser tests.
         unitTests.isIncludeAndroidResources = true
+        // Robolectric + Compose tests need more than the default 512 MB heap; fork to cap growth.
+        unitTests.all {
+            it.maxHeapSize = "2g"
+            it.forkEvery = 100
+        }
     }
     lint {
         warningsAsErrors = false
