@@ -142,6 +142,8 @@ com.punyplatipus.podouvir
 - [ ] Library: genre chips, grouped sections, sort menu, grid/list, custom reorder (#006, #009, #010)
 - [ ] Change genre dialog (#007)
 
+- [ ] Manual check on a device: type a new genre in the Library long-press → Change genre dialog (Robolectric hung on this path; the automated test uses the reset button instead)
+
 ### M3 — Playback
 - [ ] `PlaybackService` (Media3) with notification + media session
 - [ ] `PlayerController` exposing `StateFlow<PlayerUiState>`

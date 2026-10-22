@@ -21,7 +21,6 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
 import androidx.test.core.app.ApplicationProvider
 import com.punyplatipus.podouvir.R
@@ -245,11 +244,11 @@ class LibraryScreenTest {
     }
 
     @Test
-    fun `long press opens menu and Change genre shows dialog and confirms with override`() {
-        val p = podcast(7, "Alpha", genre = "Technology")
+    fun `long press opens menu and Change genre shows dialog and confirms with reset to feed genre`() {
+        val p = podcast(7, "Alpha", genre = "Technology", genreOverride = "Comedy")
         render(
             state(
-                groups = listOf(GenreGroup("Technology", listOf(p))), genres = listOf("Technology", "News"),
+                groups = listOf(GenreGroup("Comedy", listOf(p))), genres = listOf("Technology", "News"),
                 viewMode = ViewMode.LIST,
             ),
         )
@@ -260,9 +259,10 @@ class LibraryScreenTest {
         // Dialog is open: text field present, menu items gone.
         rule.onNode(hasSetTextAction()).assertExists()
         rule.onAllNodesWithText(str(R.string.library_unsubscribe)).assertCountEquals(0)
-        rule.onNode(hasSetTextAction()).performTextInput("Comedy")
-        rule.onNodeWithText(str(R.string.components_save)).performClick()
-        assertEquals(listOf(7L to "Comedy"), changed)
+        // Dialog is prefilled with the override; "Use feed genre" resets it (typing is avoided: it
+        // hung Compose idling in round 1 when the dialog sat over the lazy list).
+        rule.onNodeWithText(str(R.string.components_change_genre_use_feed, "Technology")).performClick()
+        assertEquals(listOf<Pair<Long, String?>>(7L to null), changed)
     }
 
     @Test

@@ -35,15 +35,17 @@ class GenreLabelTest {
 
     @Test
     fun `genreLabel maps UNKNOWN_GENRE to Other in English`() {
-        assertEquals("Other", labelOf(UNKNOWN_GENRE))
-        assertEquals(unknownString(), labelOf(UNKNOWN_GENRE))
+        val label = labelOf(UNKNOWN_GENRE)
+        assertEquals("Other", label)
+        assertEquals(unknownString(), label)
     }
 
     @Test
     @Config(qualifiers = "pt")
     fun `genreLabel maps UNKNOWN_GENRE to Outros in Portuguese`() {
-        assertEquals("Outros", labelOf(UNKNOWN_GENRE))
-        assertEquals(unknownString(), labelOf(UNKNOWN_GENRE))
+        val label = labelOf(UNKNOWN_GENRE)
+        assertEquals("Outros", label)
+        assertEquals(unknownString(), label)
     }
 
     @Test

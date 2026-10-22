@@ -160,3 +160,6 @@ Files: `app/src/test/java/com/punyplatipus/podouvir/ui/discover/DiscoverViewMode
 | 15b | message shown once in snackbar, onMessageShown once | NOT RUN (expected pass; manual-clock timing is the likeliest thing to need adjusting) |
 
 Notes: search icon (decorative, null contentDescription) is not asserted; hint placeholder is asserted instead. Test 15 was split into dialog and snackbar tests.
+
+### round 1
+CI: all Discover tests pass except the snackbar screen test (`The component is not displayed!`, manual clock asserted before the snackbar appeared). Fixed the test only: it now keeps `autoAdvance` on and uses `waitUntil` for the snackbar text to exist, then for `onMessageShown` count (1, then 2 after a new message). Not re-run here (no JDK); CI to confirm.

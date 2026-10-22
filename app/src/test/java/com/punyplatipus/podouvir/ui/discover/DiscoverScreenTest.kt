@@ -159,27 +159,28 @@ class DiscoverScreenTest {
     @Test
     fun `message is shown once in a snackbar then onMessageShown is invoked once`() {
         var state by mutableStateOf(DiscoverUiState(message = DiscoverMessage.SUBSCRIBE_FAILED))
-        // Keep the clock manual so the snackbar is not auto-dismissed before we can observe it.
-        rule.mainClock.autoAdvance = false
         rule.setContent { DiscoverScreen(state, {}, {}, {}, { shown++ }) }
 
-        rule.mainClock.advanceTimeBy(500)
-        rule.onNodeWithText(str(R.string.discover_message_subscribe_failed)).assertIsDisplayed()
+        val failed = str(R.string.discover_message_subscribe_failed)
+        rule.waitUntil(timeoutMillis = 5_000) {
+            rule.onAllNodesWithText(failed).fetchSemanticsNodes().isNotEmpty()
+        }
         assertEquals(0, shown)
 
-        rule.mainClock.advanceTimeBy(10_000)
+        rule.waitUntil(timeoutMillis = 10_000) { shown >= 1 }
         rule.waitForIdle()
         assertEquals(1, shown)
 
-        // Further recompositions with the same message do not re-fire.
-        rule.mainClock.advanceTimeBy(10_000)
+        // Same message, further idling: no re-fire.
         rule.waitForIdle()
         assertEquals(1, shown)
 
         state = DiscoverUiState(message = DiscoverMessage.INVALID_URL)
-        rule.mainClock.advanceTimeBy(500)
-        rule.onNodeWithText(str(R.string.discover_message_invalid_url)).assertIsDisplayed()
-        rule.mainClock.advanceTimeBy(10_000)
+        val invalid = str(R.string.discover_message_invalid_url)
+        rule.waitUntil(timeoutMillis = 5_000) {
+            rule.onAllNodesWithText(invalid).fetchSemanticsNodes().isNotEmpty()
+        }
+        rule.waitUntil(timeoutMillis = 10_000) { shown >= 2 }
         rule.waitForIdle()
         assertEquals(2, shown)
     }

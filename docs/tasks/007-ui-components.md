@@ -141,3 +141,6 @@ Not run: no JDK/SDK (`java` not found); CI runs them. Tests reviewed by eye agai
 
 round 1: import fix
 Removed the bad top-level import `androidx.compose.ui.test.assertDoesNotExist` from PodcastArtworkTest.kt (it is a member of SemanticsNodeInteraction and was unused). The other imports were checked: assertIsDisplayed, assertIsEnabled, assertIsNotEnabled, assertTextEquals and assertCountEquals are top-level extension functions in androidx.compose.ui.test, so they stay. assertExists is only used as a member call, never imported. All cases remain NOT RUN locally (no JDK).
+
+round 2
+GenreLabelTest: the two UNKNOWN_GENRE tests called labelOf (and so setContent) twice. Each now calls it once and asserts on the captured value. Other tests in all three files call setContent once each (ChangeGenreDialogTest.show() is invoked once per test). Not re-run locally (no JDK).
