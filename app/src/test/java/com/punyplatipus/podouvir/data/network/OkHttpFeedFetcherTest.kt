@@ -1,7 +1,6 @@
 package com.punyplatipus.podouvir.data.network
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
@@ -16,6 +15,7 @@ import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 import java.io.IOException
+import kotlin.coroutines.CoroutineContext
 
 class OkHttpFeedFetcherTest {
     private lateinit var server: MockWebServer
@@ -88,10 +88,19 @@ class OkHttpFeedFetcherTest {
 
     @Test fun `fetch runs on injected io dispatcher`() = runTest {
         server.enqueue(MockResponse().setBody("abc"))
-        val result = async(Dispatchers.Unconfined) { fetcher.fetch(url()) { it.readBytes().decodeToString() } }
-        assertFalse(result.isCompleted)
-        dispatcher.scheduler.advanceUntilIdle()
-        assertTrue(result.isCompleted)
-        assertEquals("abc", result.await())
+        val recording = RecordingDispatcher()
+        val result = OkHttpFeedFetcher(OkHttpClient(), recording)
+            .fetch(url()) { it.readBytes().decodeToString() }
+        assertEquals("abc", result)
+        assertTrue(recording.used)
+    }
+}
+
+class RecordingDispatcher : CoroutineDispatcher() {
+    @Volatile var used = false
+    override fun isDispatchNeeded(context: CoroutineContext): Boolean = true
+    override fun dispatch(context: CoroutineContext, block: Runnable) {
+        used = true
+        block.run()
     }
 }

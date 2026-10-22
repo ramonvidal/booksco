@@ -195,19 +195,10 @@ class DefaultPodcastRepositoryTest {
     }
 
     @Test fun `subscribe does work on injected io dispatcher`() = runTest {
-        val io = StandardTestDispatcher()
-        val r = newRepo(io)
-        val d = async { r.subscribe(url) }
-        testScheduler.advanceUntilIdle()
-        assertFalse(d.isCompleted)
-        val deadline = System.currentTimeMillis() + 10_000
-        while (!d.isCompleted && System.currentTimeMillis() < deadline) {
-            io.scheduler.advanceUntilIdle()
-            testScheduler.advanceUntilIdle()
-            Thread.sleep(10)
-        }
-        assertTrue(d.isCompleted)
-        assertTrue(d.await().isSuccess)
+        val recording = com.punyplatipus.podouvir.data.network.RecordingDispatcher()
+        val r = newRepo(recording)
+        assertTrue(r.subscribe(url).isSuccess)
+        assertTrue(recording.used)
     }
 
     // ---- unsubscribe ----
