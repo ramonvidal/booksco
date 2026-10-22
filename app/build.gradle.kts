@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -10,7 +12,7 @@ plugins {
 // Podcast Index API credentials (free, https://api.podcastindex.org). Never commit them:
 // put podcastIndex.key / podcastIndex.secret in local.properties, or set PODCAST_INDEX_KEY / PODCAST_INDEX_SECRET.
 // Without them the app searches fyyd.de only.
-val localProperties = java.util.Properties().apply {
+val localProperties = Properties().apply {
     rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
 }
 fun secret(property: String, env: String): String =
